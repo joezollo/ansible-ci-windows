@@ -58,6 +58,10 @@
       instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
     when: server is changed
 
+  - debug:
+      var: instance_conf
+  - debug:
+      msg: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
   - name: Copy Instance Config
     copy:
       content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
